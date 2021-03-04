@@ -7,15 +7,18 @@ package servermultithread;
 
 import java.io.*;
 import java.net.*;
+import java.util.ArrayList;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static servermultithread.ServerMultiThread.h;
 
 /**
  *
  * @author pogliani.mattia
  */
 public class ServerThread implements Runnable {
-
+    
     private Socket clientSocket;
 
     public ServerThread(Socket clientSocket) {
@@ -33,21 +36,30 @@ public class ServerThread implements Runnable {
             BufferedReader in = new BufferedReader(
                     new InputStreamReader(clientSocket.getInputStream()));
             String richiesta = "";
-            while (!richiesta.equals("exit")) {
+            
                 System.out.println("serverino in ascolto...");
                 richiesta = in.readLine();
-                System.out.println("stringa dal client: " + richiesta);
-                out.println("caratteri:"+richiesta.length());
+                int numero=Integer.parseInt(richiesta);
+                for(int p=0;p<numero;p++){
+                    conta w=new conta(p+1);
+                    Thread f=new Thread(w);
+                    f.start();
+                    Thread.sleep(100);
+                    f.stop();
+                }
                 
                 
-            }
+            
 
             out.close();
             clientSocket.close();
-
+            Thread.sleep(100);
+            System.out.println(h);
             System.out.println("chiusura connessione effettuata");
 
         } catch (IOException ex) {
+            Logger.getLogger(ServerThread.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InterruptedException ex) {
             Logger.getLogger(ServerThread.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

@@ -7,6 +7,7 @@ package servermultithread;
 
 import java.io.IOException;
 import java.net.*;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -15,7 +16,7 @@ import java.util.logging.Logger;
  * @author pogliani.mattia
  */
 public class ServerMultiThread {
-
+    public static int h=0;
     /**
      * @param args the command line arguments
      */
@@ -27,7 +28,8 @@ public class ServerMultiThread {
 
             while (true) {
                 Socket client = server.accept();
-                System.out.println("connessione ricevuta, ora se la smazza il thread");
+                System.out.println("connessione ricevuta");
+                
                 Thread Serverino
                         = new Thread(new ServerThread(client));
                 Serverino.start();
